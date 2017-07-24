@@ -1,41 +1,39 @@
 import React from 'react';
-import { Text, Button, View } from 'react-native';
+import { Text, Button, View, FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-
-class ChatScreen extends React.Component{
-  static navigationOptions = {
-    title: 'Chat with Lucy',
-  };
-
-  render(){
-    return(
-      <View>
-        <Text>Chat with Lucy</Text>
-      </View>
-    );
-  }
-}
+import { LottoGenerator } from './samples/LottoGenerator.js';
+import { Calculator } from './samples/Calculator.js';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Welcome',
+    title: 'jksamples',
   };
   render() {
-
     const { navigate } = this.props.navigation;
-
     return(
       <View>
-        <Text>Hello, Navigation!</Text>
-        <Button onPress={() => navigate('Chat')} title="Chat with Lucy"/>
+        <FlatList
+          data={[
+            {key:'로또번호 생성기', routeName:'LottoGenerator'},
+            {key:'계산기', routeName:'Calculator'},
+          ]}
+          renderItem={({item}) => <Text onPress={()=> navigate(item.routeName)}>{item.key}</Text>}/>
+                  
       </View>
     ); 
   }
 }
 
-export default App = StackNavigator({
+const RootNavigator = StackNavigator({
   Home: { screen: HomeScreen },
-  Chat:{ screen: ChatScreen}
+  LottoGenerator:{ screen : LottoGenerator},
+  Calculator:{screen:Calculator},
 });
+
+export default class App extends React.Component{
+  render(){
+    return <RootNavigator/>;
+  }
+}
 
 //AppRegistry.registerComponent('SimpleApp', () => SimpleApp);
