@@ -32,20 +32,18 @@ export class Calculator extends React.Component{
     static navigationOptions={
         title:'계산기',
     }
-
-
     
     constructor(props){
         super(props);
 
-        this.state={displayText:'0'};
+        this.state={displayText:''};
 
         this.onPressBtn.bind(this);
         this.curNum = '';
     }
 
     _clear(){
-        this.setState({displayText:'0'});
+        this.curNum = '';        
     }
 
     _calc(){
@@ -54,39 +52,54 @@ export class Calculator extends React.Component{
 
     onPressBtn(val){
 
-        var isdigit = (val >= '0' && val <= '9') || val === '00';
-        var ispoint = val==='.';
-
-        var pointPos = this.curNum.toString().indexOf('.');
-        if(isdigit){
-            // 0중복 입력 방지            
-            if(this.curNum.length===1 && this.curNum === '0' && (val === '0' || val === '00'))
-                this.curNum = val;
-            else
-                this.curNum += val;
-        }
-        else if(ispoint){            
-            // 소수점이 없는 경우에만 추가
-            if(pointPos === -1){
-                if(this.curNum.length===0)
-                    this.curNum = '0';
-                this.curNum += val;
-            }
-        }
-        else{
-            this.curNum = '';
-        }
-
-                
+        // 소수점 위치
+        let dotIdx = this.curNum.indexOf('.');        
+        let len = this.curNum.length;
+        
         switch(val)
         {
+            case '1': 
+            case '2': 
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '0': {
+                // 소수점없이 0이 앞에 올 수 없음. 
+                if(this.curNum === '0')
+                    this.curNum = '';
+                this.curNum += val;
+            }break;
+            case '00':{                
+                 if(this.curNum === '0') // 0만 입력된 경우
+                    this.curNum = '0';
+                 else if(len === 0) // 00이 첫 입력값인 경우
+                    this.curNum = '0';
+                 else
+                    this.curNum += val;
+            }break;
+            case '.':{
+                // 소수점이 이미 있으면 추가하지 않는다.
+                if(dotIdx === -1){
+                    // 소수점이 1번째 입력값이면 0을 붙여준다.
+                    if(len === 0)
+                        this.curNum += '0' + val;
+                    else
+                        this.curNum += val;
+                }
+            }break;
             case 'C':   this._clear();   break;
             case '=':   this._calc();    break;
             default:{                
-                this.setState({displayText: this.curNum});
+                //this.setState({displayText: this.curNum});
                 //this.setState({displayText: this.state.displayText + val});                
             }break;
         }
+
+        this.setState({displayText: this.curNum});
         //Alert.alert('onPressBtn ' + val);        
     }
 
