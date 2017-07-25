@@ -38,14 +38,14 @@ export class Calculator extends React.Component{
     constructor(props){
         super(props);
 
-        this.state={result:''};
+        this.state={displayText:'0'};
 
         this.onPressBtn.bind(this);
-        this.prevNumber = '';
+        this.curNum = '';
     }
 
     _clear(){
-        this.setState({result:''});
+        this.setState({displayText:'0'});
     }
 
     _calc(){
@@ -57,30 +57,34 @@ export class Calculator extends React.Component{
         var isdigit = (val >= '0' && val <= '9') || val === '00';
         var ispoint = val==='.';
 
-        var pointPos = this.prevNumber.toString().indexOf('.');
+        var pointPos = this.curNum.toString().indexOf('.');
         if(isdigit){
-            this.prevNumber = this.prevNumber + val;
-
-            if(pointPos <= 0){
-                var num = 1 * this.prevNumber;
-                this.prevNumber = num;
-            }
+            // 0중복 입력 방지            
+            if(this.curNum.length===1 && this.curNum === '0' && (val === '0' || val === '00'))
+                this.curNum = val;
+            else
+                this.curNum += val;
         }
         else if(ispoint){            
-            if(pointPos === -1)
-                this.prevNumber += val;
+            // 소수점이 없는 경우에만 추가
+            if(pointPos === -1){
+                if(this.curNum.length===0)
+                    this.curNum = '0';
+                this.curNum += val;
+            }
         }
         else{
-            this.prevNumber = '';
+            this.curNum = '';
         }
 
+                
         switch(val)
         {
             case 'C':   this._clear();   break;
             case '=':   this._calc();    break;
             default:{                
-                this.setState({result: this.prevNumber});
-                //this.setState({result: this.state.result + val});                
+                this.setState({displayText: this.curNum});
+                //this.setState({displayText: this.state.displayText + val});                
             }break;
         }
         //Alert.alert('onPressBtn ' + val);        
@@ -127,7 +131,7 @@ export class Calculator extends React.Component{
         return(
           <View style={styles.container}>
             <View style={{flex:0.35, backgroundColor:'lightblue', justifyContent:'flex-end'}}>
-                <Text style={{fontSize:30, textAlign:'right'}}>{this.state.result}</Text>
+                <Text style={{fontSize:30, textAlign:'right'}}>{this.state.displayText}</Text>
             </View>
             <View style={{flex:0.65, flexDirection:'column', backgroundColor:'white'}}>                
               {rows}
