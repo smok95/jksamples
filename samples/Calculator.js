@@ -1,14 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert, TouchableHighlight} from 'react-native';
+import {View, Text, StyleSheet, Alert, TouchableHighlight, TouchableOpacity} from 'react-native';
 
-class NumPad extends React.Component{
+class CalcButton extends React.Component{
     constructor(props){
         super(props);
-    }
-
-    _onPress(){
-        if(this.props.onPress !== null)
-            this.props.onPress(this.props.value);
     }
 
     render(){    
@@ -21,9 +16,9 @@ class NumPad extends React.Component{
         });
 ``
         return(
-            <TouchableHighlight style={styles.button} onPress={(() => this._onPress())}>
+            <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
                 <Text style={{color:'#555555', fontSize:25, fontWeight:'bold'}}>{this.props.value}</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }
@@ -36,14 +31,24 @@ export class Calculator extends React.Component{
     constructor(props){
         super(props);
 
-        this.state={displayText:''};
+        this.state={
+            displayText:'',  // 입력값 문자열
+            resultText:''   // 계산결과 문자열
+        };
 
         this.onPressBtn.bind(this);
         this.curNum = '';
+        this.prvNum = '';
     }
 
     _clear(){
-        this.curNum = '';        
+        this.curNum = '';
+        this.prvNum = '';  
+        
+        this.setState({
+            resultText:'',
+            displayText:''
+        });
     }
 
     _calc(){
@@ -99,52 +104,44 @@ export class Calculator extends React.Component{
             }break;
         }
 
-        this.setState({displayText: this.curNum});
-        //Alert.alert('onPressBtn ' + val);        
+        this.setState({displayText: this.displayText});        
     }
 
     render(){
-      var numPadText = [          
+      var btnText = [          
           '7', '8', '9', '×',
           '4', '5', '6', '-',
           '1', '2', '3', '+',
           '00','0', '.', '='];
 
-      var rows = [];
-      var cols = [];
-      
+      var rows = [];      
       rows.push(          
           <View key='-1' style={styles.column}>
-            <NumPad flex={1.5} onPress={(val) => this.onPressBtn(val)} value={'C'}/>
-            <NumPad flex={1.5} onPress={(val) => this.onPressBtn(val)} value={'<='}/>
-            <NumPad flex={1} onPress={(val) => this.onPressBtn(val)} value={'÷'}/>
+            <CalcButton flex={3} onPress={() => this.onPressBtn('C')} value={'C'}/>
+            <CalcButton flex={1} onPress={() => this.onPressBtn('+')} value={'÷'}/>
           </View>
       );
 
-      for(var i=0; i<4; i++)
-      {
-        cols.push(
-          <View key={i} style={styles.column}>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4]}/>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4+1]}/>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4+2]}/>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4+3]}/>
-          </View>
-          );
-      }
-      
-      for(i=0; i<4; i++)
+      for(i=0; i<4; i++){
+        let t1 = btnText[i*4];
+        let t2 = btnText[i*4+1];
+        let t3 = btnText[i*4+2];
+        let t4 = btnText[i*4+3];
         rows.push( <View style={styles.column} key={i}>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4]}/>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4+1]}/>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4+2]}/>
-            <NumPad onPress={(val) => this.onPressBtn(val)} value={numPadText[i*4+3]}/>
-        </View> );
+            <CalcButton onPress={() => this.onPressBtn(t1)} value={t1}/>
+            <CalcButton onPress={() => this.onPressBtn(t2)} value={t2}/>
+            <CalcButton onPress={() => this.onPressBtn(t3)} value={t3}/>
+            <CalcButton onPress={() => this.onPressBtn(t4)} value={t4}/>
+        </View> );        
+      }
         
         return(
           <View style={styles.container}>
-            <View style={{flex:0.35, backgroundColor:'lightblue', justifyContent:'flex-end'}}>
-                <Text style={{fontSize:30, textAlign:'right'}}>{this.state.displayText}</Text>
+            <View style={{flex:0.25, backgroundColor:'lightblue', justifyContent:'flex-end'}}>
+                <Text style={{fontSize:30, textAlign:'right'}}>{this.state.resultText}</Text>
+            </View>
+            <View style={{flex:0.10, backgroundColor:'lightblue', justifyContent:'flex-end'}}>
+                <Text style={{fontSize:20, textAlign:'right'}}>{this.state.displayText}</Text>
             </View>
             <View style={{flex:0.65, flexDirection:'column', backgroundColor:'white'}}>                
               {rows}
