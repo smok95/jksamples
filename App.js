@@ -3,6 +3,7 @@ import { Text, Button, View, FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { LottoGenerator } from './samples/LottoGenerator.js';
 import { Calculator } from './samples/Calculator.js';
+import { BaseConverter } from './samples/BaseConverter';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -10,29 +11,31 @@ class HomeScreen extends React.Component {
   };
   render() {
     const { navigate } = this.props.navigation;
-    return(
+    return (
       <View>
         <FlatList
           data={[
-            {key:'로또번호 생성기', routeName:'LottoGenerator'},
-            {key:'계산기', routeName:'Calculator'},
+            { key: '로또번호 생성기', routeName: 'LottoGenerator' },
+            { key: '계산기', routeName: 'Calculator' },
+            { key: '진법변환기', routeName: 'BaseConverter' },
           ]}
-          renderItem={({item}) => <Text onPress={()=> navigate(item.routeName)}>{item.key}</Text>}/>
-                  
+          renderItem={({ item }) => <Text style={{fontSize:20, padding:15}}  onPress={() => navigate(item.routeName)}>{item.key}</Text>} />
+
       </View>
-    ); 
+    );
   }
 }
 
 const RootNavigator = StackNavigator({
   Home: { screen: HomeScreen },
-  LottoGenerator:{ screen : LottoGenerator},
-  Calculator:{screen:Calculator},
+  LottoGenerator: { screen: LottoGenerator },
+  Calculator: { screen: Calculator },
+  BaseConverter: { screen: BaseConverter },
 });
 
-export default class App extends React.Component{
-  render(){
-    return <RootNavigator/>;
+export default class App extends React.Component {
+  render() {
+    return <RootNavigator />;
   }
 }
 
