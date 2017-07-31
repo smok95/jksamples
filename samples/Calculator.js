@@ -53,22 +53,6 @@ export class Calculator extends React.Component {
         });
     }
 
-    sum(a, b) {
-        return Number(a) + Number(b);
-    }
-
-    sub(a, b) {
-        return Number(a) - Number(b);
-    }
-
-    mul(a, b) {
-        return Number(a) * Number(b);
-    }
-
-    div(a, b) {
-        return Number(a) / Number(b);
-    }
-
     _calc() {
         if (this.curNum.length > 0 && this.prvNum.length > 0 && this.operator !== null) {
 
@@ -80,8 +64,10 @@ export class Calculator extends React.Component {
             else if (this.operator === '×') result = n1 * n2;
             else if (this.operator === '÷') result = n1 / n2;
 
-            //Alert.alert('계산결과는 ' + result);
-            this.setState({ resultText: result });
+            this.setState({ resultText: result});
+
+            this.curNum = this.prvNum = ''
+            this.operator = null
         }
         else {
             Alert.alert('완전한 수식이 아닙니다.');
