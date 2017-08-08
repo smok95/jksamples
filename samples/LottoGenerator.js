@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 export class LottoGenerator extends React.Component {
   static navigationOptions = {
@@ -10,17 +10,21 @@ export class LottoGenerator extends React.Component {
     super(props);
     this.state = {numbers:this.generate()};
   }
+
+
   onPressButton(){
     this.setState({numbers:this.generate()});    
   }
 
+  // 로또번호 생성
+  // 1~45까지 숫자가 들어간 배열에서 임의의 숫자 6개를 추출한 후 문자열로 리턴.
   generate(){
     var nums = [];
     for(var i=1; i<=45; i++)
       nums.push(i);
     
     var retStr = '';
-    for(var i=0; i<6; i++){
+    for(i=0; i<6; i++){
       var idx = Math.floor(Math.random()*nums.length);
 
       var sVal = nums[idx].toString();
