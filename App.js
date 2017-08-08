@@ -5,6 +5,7 @@ import { LottoGenerator } from './samples/LottoGenerator.js';
 import { Calculator } from './samples/Calculator.js';
 import { BaseConverter } from './samples/BaseConverter';
 import { LottoResult } from './samples/LottoResult';
+import { Base64Convert } from './samples/Base64Convert';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -17,11 +18,12 @@ class HomeScreen extends React.Component {
         <FlatList
           data={[
             { key: '로또번호 생성기', routeName: 'LottoGenerator' },
-            { key: '로또당첨정보', routeName: 'LottoResult'},
+            { key: '로또당첨정보', routeName: 'LottoResult' },
             { key: '계산기', routeName: 'Calculator' },
             { key: '진법변환기', routeName: 'BaseConverter' },
+            { key: 'Base64 인/디코딩', routeName: 'Base64Convert' },
           ]}
-          renderItem={({ item }) => <Text style={{fontSize:20, padding:15}}  onPress={() => navigate(item.routeName)}>{item.key}</Text>} />
+          renderItem={({ item }) => <Text style={{ fontSize: 20, padding: 15 }} onPress={() => navigate(item.routeName)}>{item.key}</Text>} />
 
       </View>
     );
@@ -34,6 +36,7 @@ const RootNavigator = StackNavigator({
   Calculator: { screen: Calculator },
   BaseConverter: { screen: BaseConverter },
   LottoResult: { screen: LottoResult },
+  Base64Convert: { screen: Base64Convert },
 });
 
 export default class App extends React.Component {
