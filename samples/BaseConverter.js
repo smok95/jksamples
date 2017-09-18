@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Button, Alert } from 'react-native';
-import { Constants } from 'expo';
+import { Text, View, StyleSheet, TouchableOpacity, Button, Alert, StatusBar } from 'react-native';
 
 class KeyPad extends Component {
   constructor(props) {
@@ -202,7 +201,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: StatusBar.currentHeight,
     backgroundColor: 'gray',
   },
   paragraph: {

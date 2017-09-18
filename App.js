@@ -6,6 +6,7 @@ import { Calculator } from './samples/Calculator.js';
 import { BaseConverter } from './samples/BaseConverter';
 import { LottoResult } from './samples/LottoResult';
 import { Base64Convert } from './samples/Base64Convert';
+import { ViewPager } from './samples/ViewPager';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -22,6 +23,7 @@ class HomeScreen extends React.Component {
             { key: '계산기', routeName: 'Calculator' },
             { key: '진법변환기', routeName: 'BaseConverter' },
             { key: 'Base64 인/디코딩', routeName: 'Base64Convert' },
+            { key: 'ViewPager', routeName: 'ViewPager' },
           ]}
           renderItem={({ item }) => <Text style={{ fontSize: 20, padding: 15 }} onPress={() => navigate(item.routeName)}>{item.key}</Text>} />
 
@@ -37,6 +39,7 @@ const RootNavigator = StackNavigator({
   BaseConverter: { screen: BaseConverter },
   LottoResult: { screen: LottoResult },
   Base64Convert: { screen: Base64Convert },
+  ViewPager: { screen: ViewPager },
 });
 
 export default class App extends React.Component {

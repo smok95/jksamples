@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Constants } from 'expo';
+import { Text, View, StyleSheet, StatusBar } from 'react-native';
+
 
 export class LottoResult extends Component {
     static navigationOptions = {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: StatusBar.currentHeight,
     backgroundColor: '#ecf0f1',
   },
   paragraph: {
